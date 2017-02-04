@@ -1,5 +1,6 @@
 package ugr.npi.talkwithme.voiceinterface;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -78,7 +81,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
     //maxResults=integer
 
     public void listen(String languageModel, int maxResults){
-        //requestPermissions();
+        requestPermissions();
             if((languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM) || languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)) && (maxResults>=0))
             {
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -105,6 +108,20 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
 
     }
 
+    //TODO quitar esto?
+
+
+    public void requestPermissions(){
+        Log.d("PERMISSIONS", "try to give permissions ");
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            // Request the permission.
+            ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.RECORD_AUDIO}, 362); //Callback in "onRequestPermissionResult"
+            Log.d("PERMISSIONS", "Permissions given");
+        }
+
+    }
+
 
     //TODO quitar deprecated?
     public void speak(String text){
@@ -126,7 +143,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
     public abstract void onTTSDone(String uttId);
     public abstract void onTTSError(String uttId);
     public abstract void onTTSStart(String uttId);
-    public abstract void requestPermissions();
+    //public abstract void requestPermissions();
 
     @Override
     public void onEndOfSpeech() {

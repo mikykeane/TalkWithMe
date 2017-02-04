@@ -133,7 +133,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
                 mMessageReceiver, intentFilter);
 
         if (dialog != null && ChatBotApplication.isBrainLoaded()) {
-
             dialog.loadLog();
             dialog.setPositiveButtonEnabled(true);
         }
@@ -314,6 +313,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     public void onTTSStart(String uttId){
 
     }
+    /*
     @Override
     public void requestPermissions(){
         Log.d("PERMISSIONS", "try to give permissions ");
@@ -325,6 +325,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
         }
 
     }
+    */
+    @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         Log.d("PERMISSIONS", "CHECK " + requestCode);
 
