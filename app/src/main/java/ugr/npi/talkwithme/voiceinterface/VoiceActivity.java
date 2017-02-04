@@ -1,6 +1,7 @@
 package ugr.npi.talkwithme.voiceinterface;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.SpeechRecognizer;
@@ -18,7 +19,7 @@ public abstract class VoiceActivity extends AppCompatActivity implements Recogni
     private final int PERMISSIONS_REQUEST = 362;
     private final String VOICE_LOG_TAG = "VOICE ACTIVITY";
 
-    public void init(){
+    public void init(Context ctx){
 
 
     }
