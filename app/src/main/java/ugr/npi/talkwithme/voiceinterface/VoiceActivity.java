@@ -78,7 +78,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
     //maxResults=integer
 
     public void listen(String languageModel, int maxResults){
-        requestPermissions();
+        //requestPermissions();
             if((languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM) || languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)) && (maxResults>=0))
             {
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -96,12 +96,16 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
                 // Specify English as recognition language
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
 
+                Log.d("LISTEN", "STARTS LISTENING ");
+
                 speech.startListening(intent);
 
             }
 
 
     }
+
+
     //TODO quitar deprecated?
     public void speak(String text){
         //DEPRECATED

@@ -11,6 +11,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -20,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,7 +30,7 @@ import android.widget.Toast;
 import ugr.npi.talkwithme.voiceinterface.VoiceActivity;
 
 
-public class MainActivity extends VoiceActivity {
+public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     private static final String FRAGMENT_DIALOG_LOG_TAG = "BrainLoggerDialog";
 
@@ -37,8 +40,10 @@ public class MainActivity extends VoiceActivity {
 
     //TODO This edit text will be deleted in the future
     private EditText chatEditText;
-
+    private Button mic;
     private BrainLoggerDialog dialog;
+
+    private String speech2text;
 
     //TODO the one we use for Text to Speech
     private ResponseReceiver mMessageReceiver;
@@ -51,7 +56,9 @@ public class MainActivity extends VoiceActivity {
 
 
         FragmentManager fm = getFragmentManager();
-        //init(this);
+        if(!initVoice(this)){
+            Log.e("ERROR", "Couldn't initialize Voice Recognition");
+        }
 
 
         // Se crea un dialog que muestra las cosas que han cargado.
@@ -78,7 +85,11 @@ public class MainActivity extends VoiceActivity {
         chatListView = (ListView) findViewById(R.id.chat_listView);
         chatListView.setAdapter(adapter);
 
+        mic = (Button) findViewById((R.id.mic));
+        mic.setOnClickListener(this);
+
         //TODO Quitar Edit Text, meter un boton microfono y de ahi conseguir el string question
+        /*
         chatEditText = (EditText) findViewById(R.id.chat_editText);
         chatEditText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -100,7 +111,7 @@ public class MainActivity extends VoiceActivity {
                 return false;
             }
         });
-
+        */
         //hide keyboard
         //TODO Take keyboard out of the app
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -160,6 +171,14 @@ public class MainActivity extends VoiceActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v == mic) {
+            Log.d("MIC", "MIC ACTIVATED");
+            listen(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM, 15);
+        }
+    }
+
 
     // Broadcast receiver for receiving status updates from the IntentService
     private class ResponseReceiver extends BroadcastReceiver {
@@ -177,14 +196,14 @@ public class MainActivity extends VoiceActivity {
                 switch (status) {
 
                     case Constants.STATUS_BRAIN_LOADING:
-                       // Toast.makeText(MainActivity.this, "brain loading", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "brain loading", Toast.LENGTH_SHORT).show();
                         if (dialog != null) {
                             dialog.show(getFragmentManager(), FRAGMENT_DIALOG_LOG_TAG);
                         }
                         break;
 
                     case Constants.STATUS_BRAIN_LOADED:
-                        //Toast.makeText(MainActivity.this, "brain loaded", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "brain loaded", Toast.LENGTH_SHORT).show();
                         if (dialog != null) {
                             dialog.setPositiveButtonEnabled(true);
                         }
@@ -228,10 +247,57 @@ public class MainActivity extends VoiceActivity {
     @Override
     public void processSpeechResult(String result){
 
+        Log.d("RESULT", "IT WORKS! " + result);
+
+        adapter.add(new ChatMessage(false, result));
+
+        Intent brainIntent = new Intent(MainActivity.this, BrainService.class);
+        brainIntent.setAction(BrainService.ACTION_QUESTION);
+        brainIntent.putExtra(BrainService.EXTRA_QUESTION, result);
+        startService(brainIntent);
     }
 
     @Override
     public void onSpeechError(int errorCode){
+        Log.e("ERROR", "SPEECH ERROR ");
+
+        //TODO CAMBIAR
+
+
+        String errorMsg = "";
+        switch (errorCode) {
+            case SpeechRecognizer.ERROR_AUDIO:
+                errorMsg = "Audio recording error";
+                break;
+            case SpeechRecognizer.ERROR_CLIENT:
+                errorMsg = "Unknown client side error";
+                break;
+            case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
+                errorMsg = "Insufficient permissions";
+                break;
+            case SpeechRecognizer.ERROR_NETWORK:
+                errorMsg = "Network related error";
+                break;
+            case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
+                errorMsg = "Network operation timed out";
+                break;
+            case SpeechRecognizer.ERROR_NO_MATCH:
+                errorMsg = "No recognition result matched";
+                break;
+            case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
+                errorMsg = "RecognitionService busy";
+                break;
+            case SpeechRecognizer.ERROR_SERVER:
+                errorMsg = "Server sends error status";
+                break;
+            case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
+                errorMsg = "No speech input";
+                break;
+            default:
+                errorMsg = ""; //Another frequent error that is not really due to the ASR, we will ignore it
+        }
+        Log.e("ERROR", errorMsg);
+
 
 
     }
@@ -249,16 +315,20 @@ public class MainActivity extends VoiceActivity {
 
     }
     @Override
-    public boolean requestPermissions(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+    public void requestPermissions(){
+        Log.d("PERMISSIONS", "try to give permissions ");
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             // Request the permission.
             ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.RECORD_AUDIO}, 362); //Callback in "onRequestPermissionResult"
+            Log.d("PERMISSIONS", "Permissions given");
         }
-      return true;
+
     }
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if(requestCode == 22) {
+        Log.d("PERMISSIONS", "CHECK " + requestCode);
+
+        if(requestCode == 362) {
             // If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.i("", "Record audio permission granted");
