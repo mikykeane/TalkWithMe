@@ -25,8 +25,11 @@ public class MainActivity extends Activity {
 
     private static final String FRAGMENT_DIALOG_LOG_TAG = "BrainLoggerDialog";
 
+
     private ListView chatListView;
     private static ChatArrayAdapter adapter;
+
+    //The one we need to send the SpeechHandler to
     private EditText chatEditText;
     private BrainLoggerDialog dialog;
     private ResponseReceiver mMessageReceiver;
@@ -36,6 +39,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         FragmentManager fm = getFragmentManager();
 
