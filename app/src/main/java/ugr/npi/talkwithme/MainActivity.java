@@ -31,7 +31,7 @@ public class MainActivity extends VoiceActivity {
     private ListView chatListView;
     private static ChatArrayAdapter adapter;
 
-    //TODO The one we need to send the SpeechHandler to
+    //TODO This edit text will be deleted in the future
     private EditText chatEditText;
 
     private BrainLoggerDialog dialog;
@@ -47,18 +47,11 @@ public class MainActivity extends VoiceActivity {
 
 
         FragmentManager fm = getFragmentManager();
+        //init(this);
 
 
         // Se crea un dialog que muestra las cosas que han cargado.
-        adapter = new ChatArrayAdapter(getApplicationContext());
 
-        dialog = new BrainLoggerDialog();
-        if (!ChatBotApplication.isBrainLoaded()) {
-            dialog.show(fm, FRAGMENT_DIALOG_LOG_TAG);
-        } else {
-            dialog.setPositiveButtonEnabled(true);
-        }
-        /*
         if (savedInstanceState == null) {
             Log.d("MainActivity", "onCreate savedInstanceState null");
             adapter = new ChatArrayAdapter(getApplicationContext());
@@ -74,11 +67,14 @@ public class MainActivity extends VoiceActivity {
             Log.d("MainActivity", "onCreate savedInstanceState NOT null");
             dialog = (BrainLoggerDialog) fm.findFragmentByTag(FRAGMENT_DIALOG_LOG_TAG);
         }
-        */
+
+
+
 
         chatListView = (ListView) findViewById(R.id.chat_listView);
         chatListView.setAdapter(adapter);
 
+        //TODO Quitar Edit Text, meter un boton microfono y de ahi conseguir el string question
         chatEditText = (EditText) findViewById(R.id.chat_editText);
         chatEditText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -102,6 +98,7 @@ public class MainActivity extends VoiceActivity {
         });
 
         //hide keyboard
+        //TODO Take keyboard out of the app
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
@@ -110,6 +107,7 @@ public class MainActivity extends VoiceActivity {
         super.onResume();
 
         // Register mMessageReceiver to receive messages.
+
         IntentFilter intentFilter = new IntentFilter(
                 Constants.BROADCAST_ACTION_BRAIN_STATUS);
         intentFilter.addAction(Constants.BROADCAST_ACTION_BRAIN_ANSWER);
@@ -175,14 +173,14 @@ public class MainActivity extends VoiceActivity {
                 switch (status) {
 
                     case Constants.STATUS_BRAIN_LOADING:
-                        Toast.makeText(MainActivity.this, "brain loading", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(MainActivity.this, "brain loading", Toast.LENGTH_SHORT).show();
                         if (dialog != null) {
                             dialog.show(getFragmentManager(), FRAGMENT_DIALOG_LOG_TAG);
                         }
                         break;
 
                     case Constants.STATUS_BRAIN_LOADED:
-                        Toast.makeText(MainActivity.this, "brain loaded", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "brain loaded", Toast.LENGTH_SHORT).show();
                         if (dialog != null) {
                             dialog.setPositiveButtonEnabled(true);
                         }
@@ -211,6 +209,30 @@ public class MainActivity extends VoiceActivity {
 
 
         }
+    }
+
+
+    //WE IMPLEMENT OUR ABSTRACT METHODS
+
+    public void getSpeechError(){
+
+
+    }
+    public void getTTSError(){
+
+    }
+    public void onTTSDone(String uttId){
+
+    }
+    public void onTTSError(String uttId){
+
+    }
+
+    public void onTTSStrart(String uttId){
+
+    }
+    public boolean requestPermissions(){
+        return false;
     }
 
 

@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
  * Created by Miguel on 02/02/2017.
  */
 
-public abstract class VoiceActivity extends AppCompatActivity implements RecognitionListener, OnInitListener {
+public abstract class VoiceActivity extends Activity implements RecognitionListener, OnInitListener {
     private TextToSpeech tts;
     private SpeechRecognizer speech;
     private final int PERMISSIONS_REQUEST = 362;
