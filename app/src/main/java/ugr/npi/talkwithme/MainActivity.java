@@ -20,8 +20,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import ugr.npi.talkwithme.voiceinterface.VoiceActivity;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends VoiceActivity {
 
     private static final String FRAGMENT_DIALOG_LOG_TAG = "BrainLoggerDialog";
 
@@ -29,9 +31,12 @@ public class MainActivity extends Activity {
     private ListView chatListView;
     private static ChatArrayAdapter adapter;
 
-    //The one we need to send the SpeechHandler to
+    //TODO The one we need to send the SpeechHandler to
     private EditText chatEditText;
+
     private BrainLoggerDialog dialog;
+
+    //TODO the one we use for Text to Speech
     private ResponseReceiver mMessageReceiver;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -43,6 +48,17 @@ public class MainActivity extends Activity {
 
         FragmentManager fm = getFragmentManager();
 
+
+        // Se crea un dialog que muestra las cosas que han cargado.
+        adapter = new ChatArrayAdapter(getApplicationContext());
+
+        dialog = new BrainLoggerDialog();
+        if (!ChatBotApplication.isBrainLoaded()) {
+            dialog.show(fm, FRAGMENT_DIALOG_LOG_TAG);
+        } else {
+            dialog.setPositiveButtonEnabled(true);
+        }
+        /*
         if (savedInstanceState == null) {
             Log.d("MainActivity", "onCreate savedInstanceState null");
             adapter = new ChatArrayAdapter(getApplicationContext());
@@ -58,6 +74,7 @@ public class MainActivity extends Activity {
             Log.d("MainActivity", "onCreate savedInstanceState NOT null");
             dialog = (BrainLoggerDialog) fm.findFragmentByTag(FRAGMENT_DIALOG_LOG_TAG);
         }
+        */
 
         chatListView = (ListView) findViewById(R.id.chat_listView);
         chatListView.setAdapter(adapter);
