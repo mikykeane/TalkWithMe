@@ -1,5 +1,6 @@
 package ugr.npi.talkwithme;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -7,8 +8,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -212,27 +216,59 @@ public class MainActivity extends VoiceActivity {
     }
 
 
-    //WE IMPLEMENT OUR ABSTRACT METHODS
+    /*---------------------------------------------------
+    *
+    *
+    *           WE IMPLEMENT OUR ABSTRACT METHODS
+    *
+    *
+    * ---------------------------------------------------
+    */
 
-    public void getSpeechError(){
+    @Override
+    public void processSpeechResult(String result){
+
+    }
+
+    @Override
+    public void onSpeechError(int errorCode){
 
 
     }
-    public void getTTSError(){
 
-    }
+    @Override
     public void onTTSDone(String uttId){
 
     }
+    @Override
     public void onTTSError(String uttId){
 
     }
-
-    public void onTTSStrart(String uttId){
+    @Override
+    public void onTTSStart(String uttId){
 
     }
+    @Override
     public boolean requestPermissions(){
-        return false;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            // Request the permission.
+            ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.RECORD_AUDIO}, 362); //Callback in "onRequestPermissionResult"
+        }
+      return true;
+    }
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if(requestCode == 22) {
+            // If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.i("", "Record audio permission granted");
+            } else {
+                Log.i("", "Record audio permission denied");
+                //onRecordAudioPermissionDenied();
+            }
+        }
+
+
     }
 
 

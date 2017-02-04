@@ -121,7 +121,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
     public abstract void onSpeechError(int code);
     public abstract void onTTSDone(String uttId);
     public abstract void onTTSError(String uttId);
-    public abstract void onTTSStrart(String uttId);
+    public abstract void onTTSStart(String uttId);
     public abstract void requestPermissions();
 
     @Override
