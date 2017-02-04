@@ -5,6 +5,8 @@ import android.speech.RecognitionListener;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import ugr.npi.talkwithme.R;
+
 
 public abstract class VoiceActivity extends AppCompatActivity implements RecognitionListener, TextToSpeech.OnInitListener{
 
