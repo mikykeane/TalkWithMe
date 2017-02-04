@@ -10,6 +10,7 @@ import android.os.IBinder;
 /**
  * Created by marco.granatiero on 03/10/2014.
  */
+
 public class ChatBotApplication extends Application {
 
     private static BrainService mService;
