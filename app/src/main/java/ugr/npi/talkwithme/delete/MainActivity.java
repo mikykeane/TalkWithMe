@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ttsButton.setOnClickListener(this);
         speechButton = (Button)  findViewById(R.id.speechButton);
         speechButton.setOnClickListener(this);
-        resultsButton = (Button)  findViewById(R.id.resultButton);*/
+        resultsButton = (Button)  findViewById(R.id.resultButton);
+        */
         resultsButton.setOnClickListener(this);
         tts = new TTSHandler(this);
         speech = new SpeechHandler(this);
