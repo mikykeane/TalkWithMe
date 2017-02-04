@@ -78,7 +78,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
     //maxResults=integer
 
     public void listen(String languageModel, int maxResults){
-        if(requestPermissions()){
+        requestPermissions();
             if((languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM) || languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)) && (maxResults>=0))
             {
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -100,9 +100,6 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
 
             }
 
-        }else{
-            Log.e(VOICE_LOG_TAG,"No Audio Record permissions");
-        }
 
     }
     //TODO quitar deprecated?
@@ -125,7 +122,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
     public abstract void onTTSDone(String uttId);
     public abstract void onTTSError(String uttId);
     public abstract void onTTSStrart(String uttId);
-    public abstract boolean requestPermissions();
+    public abstract void requestPermissions();
 
     @Override
     public void onEndOfSpeech() {
