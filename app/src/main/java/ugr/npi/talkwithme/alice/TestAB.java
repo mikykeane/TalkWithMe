@@ -49,7 +49,7 @@ public class TestAB {
         }
     }
     public static void testBotChat () {
-        Bot bot = new Bot("alice");
+        Bot bot = new Bot("tera");
         System.out.println(bot.brain.upgradeCnt+" brain upgrades");
 
         //bot.brain.printgraph();

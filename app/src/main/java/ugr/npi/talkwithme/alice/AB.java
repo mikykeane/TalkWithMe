@@ -300,7 +300,7 @@ public class AB {
         MagicBooleans.trace_mode = false;
         MagicBooleans.enable_external_sets = false;
         //TODO aqui se cambia el bot
-        if (offer_alice_responses) alice = new Bot("alice");
+        if (offer_alice_responses) alice = new Bot("tera");
         Timer timer = new Timer();
         bot.brain.nodeStats();
         if (bot.brain.getCategories().size() < MagicNumbers.brain_print_size) bot.brain.printgraph();

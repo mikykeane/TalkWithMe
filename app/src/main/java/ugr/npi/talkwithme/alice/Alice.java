@@ -63,7 +63,7 @@ public class Alice {
     }
 
     public static void mainFunction (String[] args) {
-        String botName = "alice";
+        String botName = "tera";
         MagicBooleans.jp_tokenize = false;
         MagicBooleans.trace_mode = true;
         String action="chat";
