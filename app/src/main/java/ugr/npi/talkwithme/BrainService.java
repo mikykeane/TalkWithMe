@@ -20,11 +20,11 @@ import ugr.npi.talkwithme.alice.Alice;
  */
 public class BrainService extends Service {
 
-    public static final String ACTION_QUESTION = "it.moondroid.chatbot.BrainService.ACTION_QUESTION";
-    public static final String ACTION_STOP = "it.moondroid.chatbot.BrainService.ACTION_STOP";
-    public static final String ACTION_START = "it.moondroid.chatbot.BrainService.ACTION_START";
+    public static final String ACTION_QUESTION = "ugr.npi.talkwithme.BrainService.ACTION_QUESTION";//"it.moondroid.chatbot.BrainService.ACTION_QUESTION";
+    public static final String ACTION_STOP = "ugr.npi.talkwithme.BrainService.ACTION_STOP";
+    public static final String ACTION_START = "ugr.npi.talkwithme.BrainService.ACTION_START";
 
-    public static final String EXTRA_QUESTION = "it.moondroid.chatbot.BrainService.EXTRA_QUESTION";
+    public static final String EXTRA_QUESTION = "ugr.npi.talkwithme.BrainService.EXTRA_QUESTION";
 
     private static final int NOTIFICATION_ID = 1337;
 

@@ -90,8 +90,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
         mic = (Button) findViewById((R.id.mic));
         mic.setOnClickListener(this);
 
-        //TODO Quitar Edit Text, meter un boton microfono y de ahi conseguir el string question
-        /*
+        //TODO Quitar Edit Text, meter un boton microfono y de ahi conseguir el string question/
         chatEditText = (EditText) findViewById(R.id.chat_editText);
         chatEditText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -113,7 +112,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
                 return false;
             }
         });
-        */
+
         //hide keyboard
         //TODO Take keyboard out of the app
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -229,10 +228,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
                         dialog.addLine(info);
                     }
                 }
-
             }
-
-
         }
     }
 

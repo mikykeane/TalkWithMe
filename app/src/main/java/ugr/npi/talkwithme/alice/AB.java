@@ -299,6 +299,7 @@ public class AB {
         String logFile = logfile;
         MagicBooleans.trace_mode = false;
         MagicBooleans.enable_external_sets = false;
+        //TODO aqui se cambia el bot
         if (offer_alice_responses) alice = new Bot("alice");
         Timer timer = new Timer();
         bot.brain.nodeStats();
