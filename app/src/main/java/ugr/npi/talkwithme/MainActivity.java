@@ -404,7 +404,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
         mic.setOnClickListener(null);
         //TODO poner el gris
         Log.d("MIC","GREY");
-        //mic.setBackgroundResource(android.R.drawable.presence_audio_away);
+        mic.setBackgroundResource(android.R.drawable.presence_audio_away);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
