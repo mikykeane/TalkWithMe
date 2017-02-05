@@ -213,6 +213,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
             if (intent.getAction().equalsIgnoreCase(Constants.BROADCAST_ACTION_BRAIN_ANSWER)) {
                 String answer = intent.getStringExtra(Constants.EXTRA_BRAIN_ANSWER);
+                speak(answer);
                 adapter.add(new ChatMessage(true, answer));
                 adapter.notifyDataSetChanged();
             }

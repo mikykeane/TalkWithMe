@@ -34,6 +34,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
     private final String VOICE_LOG_TAG = "VOICE ACTIVITY";
     private Context ctx;
 
+    Locale l;
 
     public boolean initVoice(Context ctx){
         boolean result;
@@ -42,6 +43,8 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
 
         //Assign TTS
         tts = new TextToSpeech(ctx, this);
+        l = new Locale("EN","US");
+        tts.setLanguage(l);
 
         //TODO utterance
 
@@ -97,7 +100,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
                 intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, maxResults);
 
                 // Specify English as recognition language
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, l);
 
                 Log.d("LISTEN", "STARTS LISTENING ");
 
@@ -128,7 +131,6 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
         //DEPRECATED
         HashMap<String, String> params = new HashMap<String, String>();
         params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "");
-
         tts.speak(text, TextToSpeech.QUEUE_ADD, params);
 
         //API>21
