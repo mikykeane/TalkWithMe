@@ -49,6 +49,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     private Button mic;
     private BrainLoggerDialog dialog;
 
+    boolean recording;
+
     //TODO the one we use for Text to Speech
     private ResponseReceiver mMessageReceiver;
 
@@ -82,14 +84,12 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
         }
 
 
-
-
         chatListView = (ListView) findViewById(R.id.chat_listView);
         chatListView.setAdapter(adapter);
 
         mic = (Button) findViewById((R.id.mic));
+        recording=false;
         activateMicButton();
-
         //TODO Quitar Edit Text, meter un boton microfono y de ahi conseguir el string question/
        /*
         chatEditText = (EditText) findViewById(R.id.chat_editText);
@@ -177,7 +177,12 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     public void onClick(View v) {
         if (v == mic) {
             Log.d("MIC", "MIC ACTIVATED");
-            listen(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM, 15);
+            if(!recording) {
+                startListening();
+            }else{
+                stopListening();
+            }
+
         }
     }
 
@@ -268,6 +273,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     @Override
     public void onSpeechError(int errorCode){
+        recording=false;
+        activateMicButton();
         Log.e("ERROR", "SPEECH ERROR ");
 
         //TODO CAMBIAR
@@ -312,7 +319,17 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     }
 
     void startListening(){
+        recording=true;
+        activateMicButton();
+        Log.d("MIC","RED");
+        mic.setBackgroundResource(android.R.drawable.presence_audio_busy);
         listen(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM,20);
+    }
+    @Override
+    public void stopListening(){
+        super.stopListening();
+        recording=false;
+        activateMicButton();
     }
     void processOBB(){
         if(last_oob.contains("<search>")){
@@ -324,27 +341,45 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
             Uri uri = Uri.parse("http://www.google.com/#q="+query);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
+        }else if(last_oob.contains("<url>")){
+            Log.d("SEARCH","DETECTED");
+            int start=last_oob.indexOf("<url>")+5;
+            int end=last_oob.indexOf("</url>");
+            String url=last_oob.substring(start,end);
+            Log.d("URL",url);
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         }
     }
 
     @Override
     public void onTTSDone(String uttId){
-        Log.d("TTS DONE","UTTERANCE"+uttId);
-        activateMicButton();
+        Log.d("TTS DONE","UTTERANCE "+uttId);
         if(uttId.equals(ID_OOB)){
-            Log.d("TTS UTTERANCE IF DONE", "OBB BEING PROCESSED");
+            Log.d("TTS DONE", "OBB BEING PROCESSED");
             processOBB();
         }else{
-            Log.d("TTS UTTERANCE IF DONE", uttId);
+            Log.d("TTS DONE", "NO OBB PROCESSED");
         }
+        this.runOnUiThread(new Runnable() {
+                               @Override
+                               public void run() {
+                                   activateMicButton();
+                               }
+                           });
     }
+
+
     @Override
     public void onTTSError(String uttId){
         activateMicButton();
+        //TODO toast
         Log.e("TTS ERROR","UTTERANCE: "+ uttId);
     }
     @Override
-    public void onTTSStart(String uttId){deactivateMicButton();
+    public void onTTSStart(String uttId){
+        deactivateMicButton();
     }
     /*
     @Override
@@ -362,9 +397,14 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     void activateMicButton(){
         mic.setOnClickListener(this);
+        Log.d("MIC","GREEN");
+        mic.setBackgroundResource(android.R.drawable.presence_audio_online);
     }
     void deactivateMicButton(){
         mic.setOnClickListener(null);
+        //TODO poner el gris
+        Log.d("MIC","GREY");
+        mic.setBackgroundResource(android.R.drawable.presence_audio_away);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
