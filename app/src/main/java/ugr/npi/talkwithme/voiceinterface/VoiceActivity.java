@@ -95,6 +95,10 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
 
     }
 
+    public void stopListening(){
+        speech.stopListening();
+    }
+
     public void end(){
         tts.stop();
         tts.shutdown();
