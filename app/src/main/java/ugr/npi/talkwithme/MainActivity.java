@@ -27,8 +27,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.Locale;
-
 import ugr.npi.talkwithme.voiceinterface.VoiceActivity;
 
 
@@ -36,6 +34,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     private static final String FRAGMENT_DIALOG_LOG_TAG = "BrainLoggerDialog";
 
+    private static Integer ID_PROMPT_QUERY = 0;	//Id chosen to identify the prompts that involve posing questions to the user
+    private static Integer ID_PROMPT_INFO = 1;	//Id chosen to identify the prompts that involve only informing the user
 
     private ListView chatListView;
     private static ChatArrayAdapter adapter;
@@ -45,8 +45,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     private Button mic;
     private BrainLoggerDialog dialog;
 
-    private String speech2text;
-
     //TODO the one we use for Text to Speech
     private ResponseReceiver mMessageReceiver;
 
@@ -55,8 +53,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Locale.setDefault(new Locale("en"));
         FragmentManager fm = getFragmentManager();
         if(!initVoice(this)){
             Log.e("ERROR", "Couldn't initialize Voice Recognition");
@@ -304,17 +300,25 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     }
 
+    void startListening(){
+        listen(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM,20);
+    }
+
     @Override
     public void onTTSDone(String uttId){
-
+        Log.d("TTS UTTERANCE DONE",uttId);
+        if(uttId.equals(ID_PROMPT_QUERY.toString())){
+            Log.d("TTS UTTERANCE IF DONE", "QUERY");
+            startListening();
+        }
     }
     @Override
     public void onTTSError(String uttId){
-
+        Log.d("TTS UTTERANCE ERROR",uttId);
     }
     @Override
     public void onTTSStart(String uttId){
-
+        Log.d("TTS UTTERANCE START",uttId);
     }
     /*
     @Override
