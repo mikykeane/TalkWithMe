@@ -76,7 +76,7 @@ public class MagicStrings {
     public static String default_property = "unknown";
     public static String default_map = "unknown";
     public static String default_Customer_id = "unknown";
-    //TODO changed this
+    //TODO change
     public static String default_bot_name = "Tera";
     public static String default_that = "unknown";
     public static String default_topic = "unknown";
