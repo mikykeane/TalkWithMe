@@ -155,17 +155,13 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
 
 
     //TODO quitar deprecated?
-    public void speak(String text){
+    @SuppressWarnings("deprecation")
+    public void speak(String text, String utterance){
         //DEPRECATED
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "");
+        params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utterance);
         tts.setLanguage(language);
         tts.speak(text, TextToSpeech.QUEUE_ADD, params);
-
-        //API>21
-        //Bundle params = new Bundle();
-        //tts.speak(text,TextToSpeech.QUEUE_ADD, params,"");
-
     }
 
     public abstract void processSpeechResult(String result);

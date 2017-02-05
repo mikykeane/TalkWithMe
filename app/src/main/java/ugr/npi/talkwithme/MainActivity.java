@@ -34,11 +34,13 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     private static final String FRAGMENT_DIALOG_LOG_TAG = "BrainLoggerDialog";
 
-    private static Integer ID_PROMPT_QUERY = 0;	//Id chosen to identify the prompts that involve posing questions to the user
-    private static Integer ID_PROMPT_INFO = 1;	//Id chosen to identify the prompts that involve only informing the user
+    private static String ID_AFFIRMATIVE = "AFF";	//Id chosen to identify the prompts that involve posing questions to the user
+    private static String ID_OOB = "OOB";	//Id chosen to identify the prompts that involve only informing the user
 
     private ListView chatListView;
     private static ChatArrayAdapter adapter;
+
+    String last_oob="";
 
     //TODO This edit text will be deleted in the future
     private EditText chatEditText;
@@ -84,7 +86,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
         chatListView.setAdapter(adapter);
 
         mic = (Button) findViewById((R.id.mic));
-        mic.setOnClickListener(this);
+        activateMicButton();
 
         //TODO Quitar Edit Text, meter un boton microfono y de ahi conseguir el string question/
        /*
@@ -212,7 +214,15 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
             if (intent.getAction().equalsIgnoreCase(Constants.BROADCAST_ACTION_BRAIN_ANSWER)) {
                 String answer = intent.getStringExtra(Constants.EXTRA_BRAIN_ANSWER);
-                speak(answer);
+                String uttId=answer.contains("<oob>")?ID_OOB:ID_AFFIRMATIVE;
+                if(uttId.equals(ID_OOB)){
+                    int start=answer.indexOf("<oob>")+5;
+                    int end=answer.indexOf("</oob>");
+                    last_oob=answer.substring(start,end);
+                    Log.d(ID_OOB,"<oob> found between "+start+" and "+end+". OOB: "+last_oob);
+
+                }
+                speak(answer, uttId);
                 adapter.add(new ChatMessage(true, answer));
                 adapter.notifyDataSetChanged();
             }
@@ -301,22 +311,28 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     void startListening(){
         listen(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM,20);
     }
+    void processOBB(){
+
+    }
 
     @Override
     public void onTTSDone(String uttId){
-        Log.d("TTS UTTERANCE DONE",uttId);
-        if(uttId.equals(ID_PROMPT_QUERY.toString())){
-            Log.d("TTS UTTERANCE IF DONE", "QUERY");
-            startListening();
+        Log.d("TTS DONE","UTTERANCE"+uttId);
+        activateMicButton();
+        if(uttId.equals(ID_OOB)){
+            Log.d("TTS UTTERANCE IF DONE", "OBB BEING PROCESSED");
+            processOBB();
+        }else{
+            Log.d("TTS UTTERANCE IF DONE", uttId);
         }
     }
     @Override
     public void onTTSError(String uttId){
-        Log.d("TTS UTTERANCE ERROR",uttId);
+        activateMicButton();
+        Log.e("TTS ERROR","UTTERANCE: "+ uttId);
     }
     @Override
-    public void onTTSStart(String uttId){
-        Log.d("TTS UTTERANCE START",uttId);
+    public void onTTSStart(String uttId){deactivateMicButton();
     }
     /*
     @Override
@@ -331,6 +347,13 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     }
     */
+
+    void activateMicButton(){
+        mic.setOnClickListener(this);
+    }
+    void deactivateMicButton(){
+        mic.setOnClickListener(null);
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         Log.d("PERMISSIONS", "CHECK " + requestCode);
