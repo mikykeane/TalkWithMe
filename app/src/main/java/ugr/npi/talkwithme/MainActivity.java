@@ -441,7 +441,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     public void introduction(){
         try {
-            Thread.sleep(50);
+            Thread.sleep(1);
             adapter.add(new ChatMessage(true, introduction_string));
             adapter.notifyDataSetChanged();
             introduced=true;
