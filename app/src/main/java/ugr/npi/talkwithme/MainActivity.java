@@ -45,7 +45,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     String last_oob="";
 
     //TODO This edit text will be deleted in the future
-    private EditText chatEditText;
     private Button mic;
     private BrainLoggerDialog dialog;
 
@@ -94,30 +93,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
         mic = (Button) findViewById((R.id.mic));
         recording=false;
         activateMicButton();
-        //TODO Quitar Edit Text, meter un boton microfono y de ahi conseguir el string question/
-       /*
-        chatEditText = (EditText) findViewById(R.id.chat_editText);
-        chatEditText.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on key press
-                    final String question = chatEditText.getText().toString();
-                    adapter.add(new ChatMessage(false, question));
-                    chatEditText.setText("");
-
-                    Intent brainIntent = new Intent(MainActivity.this, BrainService.class);
-                    brainIntent.setAction(BrainService.ACTION_QUESTION);
-                    brainIntent.putExtra(BrainService.EXTRA_QUESTION, question);
-                    startService(brainIntent);
-
-                    return true;
-                }
-
-                return false;
-            }
-        });
-        */
 
         //hide keyboard
         //TODO Take keyboard out of the app
