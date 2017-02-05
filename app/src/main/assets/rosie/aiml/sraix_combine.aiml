@@ -22,12 +22,13 @@
 <li>I got myself a new robot puppy. Dogmatic.</li>
 <li>What does R2D2 use to open PDF files? Adobe Wan Kenobi.</li>
 <li>What do you call a pirate robot? Arrrrr2D2.</li>
-</random></template></category>
+</random></template>
+</category>
 <category><pattern>LIMERICK</pattern>
 <template><sraix bot="drwallace/jokebot" botid="c98daf062e345a88" host="callmom.pandorabots.com">LIMERICK</sraix></template>
 </category>
 <category><pattern>FAVORITE *</pattern>
-<template>My only favourite thing in the world right now is the amazing Ghostly Runes. Just can't stop playing it!</template>
+<template><sraix bot="drwallace/currentevents" botid="844a85704e345a9a" host="callmom.pandorabots.com">FAVORITE <star/></sraix></template>
 </category>
 <category><pattern>RECOMMEND *</pattern>
 <template><sraix bot="drwallace/currentevents" botid="844a85704e345a9a" host="callmom.pandorabots.com">RECOMMEND <star/></sraix></template>

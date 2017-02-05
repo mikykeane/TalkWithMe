@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_hd" >
+    android:background="@drawable/background" >
 
     <ListView
         android:id="@+id/chat_listView"
@@ -25,14 +25,6 @@
         android:layout_alignParentLeft="true"
         android:padding="16dp"
         android:background="@android:color/white">
-
-        <EditText
-            android:id="@+id/chat_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:inputType="text" />
 
         <Button
             android:layout_width="wrap_content"

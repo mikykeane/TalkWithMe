@@ -46,6 +46,7 @@ public class Bot {
 //    public String root_path = "";
 //    public String bot_path = root_path+"/bots";
 //    public String bot_name_path = bot_path+"/super";
+    //TODO cambiar bot que usamos
     public String bot_name_path = "alice";
     public String aimlif_path = bot_name_path+"/aimlif";
     public String aiml_path = bot_name_path+"/aiml";
