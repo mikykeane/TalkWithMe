@@ -50,6 +50,10 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     private BrainLoggerDialog dialog;
 
     boolean recording;
+    boolean introduced=false;
+
+    //TODO añadir en @strings
+    String introduction_string="Hello, my name is Tera.\nPlease press the microphone to talk with me.";
 
     //TODO the one we use for Text to Speech
     private ResponseReceiver mMessageReceiver;
@@ -77,7 +81,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
             } else {
                 dialog.setPositiveButtonEnabled(true);
             }
-
         } else {
             Log.d("MainActivity", "onCreate savedInstanceState NOT null");
             dialog = (BrainLoggerDialog) fm.findFragmentByTag(FRAGMENT_DIALOG_LOG_TAG);
@@ -139,6 +142,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
             dialog.loadLog();
             dialog.setPositiveButtonEnabled(true);
         }
+
     }
 
     @Override
@@ -373,13 +377,25 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     @Override
     public void onTTSError(String uttId){
-        activateMicButton();
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activateMicButton();
+            }
+        });
+
         //TODO toast
         Log.e("TTS ERROR","UTTERANCE: "+ uttId);
     }
     @Override
     public void onTTSStart(String uttId){
-        deactivateMicButton();
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                deactivateMicButton();
+            }
+        });
+
     }
     /*
     @Override
@@ -423,5 +439,17 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     }
 
+    public void introduction(){
+        try {
+            Thread.sleep(50);
+            adapter.add(new ChatMessage(true, introduction_string));
+            adapter.notifyDataSetChanged();
+            introduced=true;
+            speak(introduction_string, ID_AFFIRMATIVE);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
 
 }

@@ -50,6 +50,8 @@ public class BrainLoggerDialog extends DialogFragment {
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @TargetApi(11)
                         public void onClick(DialogInterface dialog, int id) {
+
+                            ((MainActivity) getActivity()).introduction();
                             dialog.cancel();
                         }
 
