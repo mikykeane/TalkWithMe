@@ -14,6 +14,7 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
 
     final Locale language=Locale.ENGLISH;
 
+    @TargetApi(21)
     public boolean initVoice(Context ctx){
         boolean result;
         this.ctx=ctx;
@@ -51,7 +53,31 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
         /*Utterance things
         *
         * */
+        tts.setOnUtteranceProgressListener(new UtteranceProgressListener()
+        {
+            @Override
+            public void onDone(String utteranceId) //TTS finished synthesizing
+            {
+                onTTSDone(utteranceId);
+            }
+            @Override
+            public void onError(String utteranceId) //TTS encountered an error while synthesizing
+            {
+                onTTSError(utteranceId);
+            }
 
+            @Override
+            public void onError(String utteranceId,int code) //TTS encountered an error while synthesizing
+            {
+                onTTSError(utteranceId);
+            }
+
+            @Override
+            public void onStart(String utteranceId) //TTS has started synthesizing
+            {
+                onTTSStart(utteranceId);
+            }
+        });
         //Assign Speech
         // Find out whether speech recognition is supported
         List<ResolveInfo> intActivities = packManager.queryIntentActivities(
