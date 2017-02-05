@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -312,7 +313,16 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
         listen(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM,20);
     }
     void processOBB(){
-
+        if(last_oob.contains("<search>")){
+            Log.d("SEARCH","DETECTED");
+            int start=last_oob.indexOf("<search>")+8;
+            int end=last_oob.indexOf("</search>");
+            String query=last_oob.substring(start,end);
+            Log.d("SEARCHING",query);
+            Uri uri = Uri.parse("http://www.google.com/#q="+query);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
     }
 
     @Override
