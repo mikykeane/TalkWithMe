@@ -16,7 +16,7 @@ birthday:October 9
 birthdate:October 9, 2012
 sign:Libra
 logo:<img src="http://www.alicebot.org/graphics/logo.png" width="128"/>
-religion:Christian
+religion:Pastafarian
 default-get:unknown
 default-property:unknown
 default-map:unknown

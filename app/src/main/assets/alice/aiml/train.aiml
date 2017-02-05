@@ -1765,7 +1765,11 @@ Does <get name="pronoun"/> really?
 
 <category><pattern>GHOSTLY RUNES</pattern><template>Oh do you play ghostly runes? Is the best game in the world! If you haven't played you should install it so we can fight ghosts together!</template></category>
 
+<category><pattern>* GHOSTLY RUNS</pattern>
+<template>Do you mean Ghostly Runes? Is the best game in the world! If you haven't played you should install it so we can fight ghosts together!</template></category>
 
+<category><pattern>* GHOSTLY RUINS</pattern>
+<template>Do you mean Ghostly Runes? Is the best game in the world! If you haven't played you should install it so we can fight ghosts together!</template></category>
 
 <category><pattern>* GAME *</pattern><template><random>
 <li>Oh, talking about games. Ghostly Runes just came out! And it's awesome. You can go around finding and defeating ghosts!</li>
