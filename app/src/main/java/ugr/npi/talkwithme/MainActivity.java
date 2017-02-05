@@ -53,7 +53,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     boolean introduced=false;
 
     //TODO añadir en @strings
-    String introduction_string="Hello, my name is Tera.\nPlease press the microphone to talk with me.";
+    String introduction_string;
 
     //TODO the one we use for Text to Speech
     private ResponseReceiver mMessageReceiver;
@@ -85,6 +85,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
             Log.d("MainActivity", "onCreate savedInstanceState NOT null");
             dialog = (BrainLoggerDialog) fm.findFragmentByTag(FRAGMENT_DIALOG_LOG_TAG);
         }
+        introduction_string=getResources().getString(R.string.introduction);
 
 
         chatListView = (ListView) findViewById(R.id.chat_listView);
@@ -440,7 +441,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     public void introduction(){
         try{
-            Thread.sleep(1);
+            //Thread.sleep(1);
             adapter.add(new ChatMessage(true, introduction_string));
             adapter.notifyDataSetChanged();
             introduced=true;

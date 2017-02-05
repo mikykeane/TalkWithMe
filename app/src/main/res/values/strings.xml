@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ChatBot</string>
+    <string name="app_name">Talk with me!</string>
     <string name="action_log">Log</string>
+    <string name="introduction">Hello, my name is Tera.\n Please press the microphone to talk with me</string>
 
     <string name="lorem_short">Lorem ipsum dolor sit amet</string>
     <string name="lorem_1">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
