@@ -413,10 +413,12 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     void activateMicButton(){
         mic.setOnClickListener(this);
+        recording=false;
         Log.d("MIC","GREEN");
         mic.setBackgroundResource(android.R.drawable.presence_audio_online);
     }
     void deactivateMicButton(){
+        recording=false;
         mic.setOnClickListener(null);
         //TODO poner el gris
         Log.d("MIC","GREY");
@@ -425,7 +427,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         Log.d("PERMISSIONS", "CHECK " + requestCode);
-
         if(requestCode == PERMISSIONS_REQUEST_ID) {
             // If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -435,12 +436,10 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
                 //onRecordAudioPermissionDenied();
             }
         }
-
-
     }
 
     public void introduction(){
-        try {
+        try{
             Thread.sleep(1);
             adapter.add(new ChatMessage(true, introduction_string));
             adapter.notifyDataSetChanged();

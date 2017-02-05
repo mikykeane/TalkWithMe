@@ -38,7 +38,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
 
     final Locale language=Locale.ENGLISH;
 
-    @TargetApi(21)
+
     public boolean initVoice(Context ctx){
         boolean result;
         this.ctx=ctx;
@@ -48,11 +48,6 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
         tts = new TextToSpeech(ctx, this);
         tts.setLanguage(language);
 
-        //TODO utterance
-
-        /*Utterance things
-        *
-        * */
         tts.setOnUtteranceProgressListener(new UtteranceProgressListener()
         {
             @Override
