@@ -27,6 +27,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import ugr.npi.talkwithme.voiceinterface.VoiceActivity;
 
 
@@ -54,7 +56,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        Locale.setDefault(new Locale("en"));
         FragmentManager fm = getFragmentManager();
         if(!initVoice(this)){
             Log.e("ERROR", "Couldn't initialize Voice Recognition");

@@ -1,6 +1,7 @@
 package ugr.npi.talkwithme.voiceinterface;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +35,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
     private final String VOICE_LOG_TAG = "VOICE ACTIVITY";
     private Context ctx;
 
-    Locale language;
+    final Locale language=Locale.ENGLISH;
 
     public boolean initVoice(Context ctx){
         boolean result;
@@ -43,7 +44,6 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
 
         //Assign TTS
         tts = new TextToSpeech(ctx, this);
-        language = Locale.ENGLISH;
         tts.setLanguage(language);
 
         //TODO utterance
@@ -82,7 +82,7 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
 
     //languageModel=RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
     //maxResults=integer
-
+@TargetApi(21)
     public void listen(String languageModel, int maxResults){
         requestPermissions();
             if((languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_FREE_FORM) || languageModel.equals(RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)) && (maxResults>=0))
@@ -100,11 +100,13 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
                 intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, maxResults);
 
                 // Specify English as recognition language
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, language);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"en-US");
 
                 Log.d("LISTEN", "STARTS LISTENING ");
 
                 speech.startListening(intent);
+
+
 
             }
 
