@@ -44,17 +44,15 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
 
     String last_oob="";
 
-    //TODO This edit text will be deleted in the future
     private Button mic;
     private BrainLoggerDialog dialog;
 
     boolean recording;
     boolean introduced=false;
 
-    //TODO añadir en @strings
     String introduction_string;
 
-    //TODO the one we use for Text to Speech
+    //the one we use for Text to Speech
     private ResponseReceiver mMessageReceiver;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -95,8 +93,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
         activateMicButton();
 
         //hide keyboard
-        //TODO Take keyboard out of the app
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
     }
 
     @Override
@@ -257,9 +254,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
         activateMicButton();
         Log.e("ERROR", "SPEECH ERROR ");
 
-        //TODO CAMBIAR
-
-
         String errorMsg = "";
         switch (errorCode) {
             case SpeechRecognizer.ERROR_AUDIO:
@@ -292,6 +286,8 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
             default:
                 errorMsg = ""; //Another frequent error that is not really due to the ASR, we will ignore it
         }
+        Toast.makeText(getApplicationContext(), errorMsg , Toast.LENGTH_LONG).show();
+
         Log.e("ERROR", errorMsg);
 
 
@@ -359,8 +355,6 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
                 activateMicButton();
             }
         });
-
-        //TODO toast
         Log.e("TTS ERROR","UTTERANCE: "+ uttId);
     }
     @Override
@@ -373,19 +367,7 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
         });
 
     }
-    /*
-    @Override
-    public void requestPermissions(){
-        Log.d("PERMISSIONS", "try to give permissions ");
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            // Request the permission.
-            ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.RECORD_AUDIO}, 362); //Callback in "onRequestPermissionResult"
-            Log.d("PERMISSIONS", "Permissions given");
-        }
-
-    }
-    */
 
     void activateMicButton(){
         mic.setOnClickListener(this);
@@ -396,10 +378,10 @@ public class MainActivity extends VoiceActivity implements View.OnClickListener{
     void deactivateMicButton(){
         recording=false;
         mic.setOnClickListener(null);
-        //TODO poner el gris
         Log.d("MIC","GREY");
         mic.setBackgroundResource(android.R.drawable.presence_audio_away);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         Log.d("PERMISSIONS", "CHECK " + requestCode);

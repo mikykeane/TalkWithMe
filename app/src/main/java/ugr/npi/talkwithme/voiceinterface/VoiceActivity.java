@@ -138,9 +138,6 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
 
     }
 
-    //TODO quitar esto?
-
-
     public void requestPermissions(){
         Log.d("PERMISSIONS", "try to give permissions ");
 
@@ -152,8 +149,6 @@ public abstract class VoiceActivity extends Activity implements RecognitionListe
 
     }
 
-
-    //TODO quitar deprecated?
     @SuppressWarnings("deprecation")
     public void speak(String text, String utterance){
         //DEPRECATED
